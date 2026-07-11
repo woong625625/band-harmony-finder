@@ -12,6 +12,8 @@ function Home() {
   const nav = useNavigate();
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mySessions, setMySessions] = useState<SavedSession[]>([]);
+  useEffect(() => { setMySessions(getSavedSessions()); }, []);
   const today = new Date();
   const twoWeeks = new Date(today.getTime() + 14 * 86400_000);
   const deadlineDefault = new Date(today.getTime() + 3 * 86400_000);
