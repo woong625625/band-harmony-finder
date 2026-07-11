@@ -53,7 +53,14 @@ function Home() {
       setCreating(false);
       return;
     }
+    saveSession({ leaderToken: leader_token, memberToken: member_token, title: form.title, createdAt: new Date().toISOString() });
     nav({ to: "/l/$leaderToken", params: { leaderToken: leader_token } });
+  }
+
+  function forgetSession(token: string) {
+    if (!confirm("이 세션을 목록에서 제거할까요? (실제 데이터는 삭제되지 않아요)")) return;
+    removeSavedSession(token);
+    setMySessions(getSavedSessions());
   }
 
   return (
