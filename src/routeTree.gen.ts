@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MMemberTokenRouteImport } from './routes/m.$memberToken'
+import { Route as LLeaderTokenRouteImport } from './routes/l.$leaderToken'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const MMemberTokenRoute = MMemberTokenRouteImport.update({
   path: '/m/$memberToken',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LLeaderTokenRoute = LLeaderTokenRouteImport.update({
+  id: '/l/$leaderToken',
+  path: '/l/$leaderToken',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/l/$leaderToken': typeof LLeaderTokenRoute
   '/m/$memberToken': typeof MMemberTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/l/$leaderToken': typeof LLeaderTokenRoute
   '/m/$memberToken': typeof MMemberTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/l/$leaderToken': typeof LLeaderTokenRoute
   '/m/$memberToken': typeof MMemberTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/m/$memberToken'
+  fullPaths: '/' | '/l/$leaderToken' | '/m/$memberToken'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/m/$memberToken'
-  id: '__root__' | '/' | '/m/$memberToken'
+  to: '/' | '/l/$leaderToken' | '/m/$memberToken'
+  id: '__root__' | '/' | '/l/$leaderToken' | '/m/$memberToken'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LLeaderTokenRoute: typeof LLeaderTokenRoute
   MMemberTokenRoute: typeof MMemberTokenRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MMemberTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/l/$leaderToken': {
+      id: '/l/$leaderToken'
+      path: '/l/$leaderToken'
+      fullPath: '/l/$leaderToken'
+      preLoaderRoute: typeof LLeaderTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LLeaderTokenRoute: LLeaderTokenRoute,
   MMemberTokenRoute: MMemberTokenRoute,
 }
 export const routeTree = rootRouteImport
