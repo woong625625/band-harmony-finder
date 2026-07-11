@@ -14,7 +14,124 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          all_day: boolean
+          created_at: string
+          end_at: string
+          id: string
+          member_id: string
+          recurrence: string
+          recurrence_until: string | null
+          start_at: string
+          title: string
+        }
+        Insert: {
+          all_day?: boolean
+          created_at?: string
+          end_at: string
+          id?: string
+          member_id: string
+          recurrence?: string
+          recurrence_until?: string | null
+          start_at: string
+          title?: string
+        }
+        Update: {
+          all_day?: boolean
+          created_at?: string
+          end_at?: string
+          id?: string
+          member_id?: string
+          recurrence?: string
+          recurrence_until?: string | null
+          start_at?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      members: {
+        Row: {
+          id: string
+          name: string
+          session_id: string
+          submitted_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          session_id: string
+          submitted_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          session_id?: string
+          submitted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "members_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          created_at: string
+          deadline: string
+          end_hour: number
+          fixed_slots: Json
+          id: string
+          leader_token: string
+          member_token: string
+          min_available: number | null
+          range_end: string
+          range_start: string
+          start_hour: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          deadline: string
+          end_hour?: number
+          fixed_slots?: Json
+          id?: string
+          leader_token: string
+          member_token: string
+          min_available?: number | null
+          range_end: string
+          range_start: string
+          start_hour?: number
+          title: string
+        }
+        Update: {
+          created_at?: string
+          deadline?: string
+          end_hour?: number
+          fixed_slots?: Json
+          id?: string
+          leader_token?: string
+          member_token?: string
+          min_available?: number | null
+          range_end?: string
+          range_start?: string
+          start_hour?: number
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
