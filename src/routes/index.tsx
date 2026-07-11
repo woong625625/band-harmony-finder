@@ -76,6 +76,39 @@ function Home() {
         <a href="#create" className="pill pill-dark text-sm">세션 만들기</a>
       </nav>
 
+      {mySessions.length > 0 && (
+        <section className="px-6 pt-2 lg:px-12">
+          <div className="mx-auto max-w-4xl rounded-2xl border border-border bg-surface-yellow p-5">
+            <div className="mb-3 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm font-medium">
+                <Sparkles className="h-4 w-4" /> 이 브라우저에서 만든 세션
+              </div>
+              <span className="text-xs text-muted-foreground">총 {mySessions.length}개</span>
+            </div>
+            <div className="space-y-2">
+              {mySessions.map((s) => (
+                <div key={s.leaderToken} className="flex items-center gap-3 rounded-xl bg-white p-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="truncate font-medium">{s.title}</div>
+                    <div className="text-xs text-muted-foreground">{new Date(s.createdAt).toLocaleString("ko-KR")}</div>
+                  </div>
+                  <Link to="/l/$leaderToken" params={{ leaderToken: s.leaderToken }} className="pill pill-outline text-xs">
+                    리더 열기 <ExternalLink className="h-3 w-3" />
+                  </Link>
+                  <button onClick={() => forgetSession(s.leaderToken)} className="text-stone hover:text-destructive p-1" aria-label="목록에서 제거">
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-2 text-xs text-muted-foreground">
+              💡 다른 기기에서 열려면 리더 링크를 미리 저장해 두세요. 이 목록은 이 브라우저에만 저장돼요.
+            </div>
+          </div>
+        </section>
+      )}
+
+
       {/* Hero */}
       <section className="relative overflow-hidden px-6 pt-12 pb-24 lg:px-12 lg:pt-20">
         {/* floating sticky notes */}
