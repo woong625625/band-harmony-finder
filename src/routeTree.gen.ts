@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MMemberTokenRouteImport } from './routes/m.$memberToken'
+import { Route as LLeaderTokenRouteImport } from './routes/l.$leaderToken'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MMemberTokenRoute = MMemberTokenRouteImport.update({
+  id: '/m/$memberToken',
+  path: '/m/$memberToken',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LLeaderTokenRoute = LLeaderTokenRouteImport.update({
+  id: '/l/$leaderToken',
+  path: '/l/$leaderToken',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/l/$leaderToken': typeof LLeaderTokenRoute
+  '/m/$memberToken': typeof MMemberTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/l/$leaderToken': typeof LLeaderTokenRoute
+  '/m/$memberToken': typeof MMemberTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/l/$leaderToken': typeof LLeaderTokenRoute
+  '/m/$memberToken': typeof MMemberTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/l/$leaderToken' | '/m/$memberToken'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/l/$leaderToken' | '/m/$memberToken'
+  id: '__root__' | '/' | '/l/$leaderToken' | '/m/$memberToken'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LLeaderTokenRoute: typeof LLeaderTokenRoute
+  MMemberTokenRoute: typeof MMemberTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +68,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/m/$memberToken': {
+      id: '/m/$memberToken'
+      path: '/m/$memberToken'
+      fullPath: '/m/$memberToken'
+      preLoaderRoute: typeof MMemberTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/l/$leaderToken': {
+      id: '/l/$leaderToken'
+      path: '/l/$leaderToken'
+      fullPath: '/l/$leaderToken'
+      preLoaderRoute: typeof LLeaderTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LLeaderTokenRoute: LLeaderTokenRoute,
+  MMemberTokenRoute: MMemberTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
